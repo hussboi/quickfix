@@ -1,0 +1,2173 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickFix - Home Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        secondary: '#34D399',
+                        dark: '#181818',
+                        light: '#FFFFFF',
+                    },
+                    fontFamily: {
+                        sans: ['Segoe UI', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Base styles */
+        .rtl-text {
+            direction: rtl;
+            text-align: right;
+        }
+        .ltr-text {
+            direction: ltr;
+            text-align: left;
+        }
+        
+        /* Dark mode */
+        .dark body {
+            background-color: #181818;
+            color: #f3f4f6;
+        }
+        .dark .bg-white {
+            background-color: #1f2937;
+        }
+        .dark .border {
+            border-color: #374151;
+        }
+        .dark .text-gray-600 {
+            color: #d1d5db;
+        }
+        .dark .text-gray-800 {
+            color: #f3f4f6;
+        }
+        .dark input, .dark select, .dark textarea {
+            background-color: #374151;
+            color: #f3f4f6;
+            border-color: #4b5563;
+        }
+        .dark .shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .slide-in {
+            animation: slideIn 0.3s ease-in-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Tab system */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Progress animation */
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        /* Enhanced fade and slide transitions for screens */
+        .screen {
+            opacity: 0;
+            transform: translateX(60px) scale(0.98);
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1);
+            z-index: 1;
+        }
+        .screen.active {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            pointer-events: auto;
+            z-index: 10;
+        }
+        .screen-leave-left {
+            opacity: 0;
+            transform: translateX(-60px) scale(0.98);
+            pointer-events: none;
+            z-index: 1;
+            transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1);
+        }
+        .screen-leave-right {
+            opacity: 0;
+            transform: translateX(60px) scale(0.98);
+            pointer-events: none;
+            z-index: 1;
+            transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1);
+        }
+        
+        /* Dark box backgrounds for dark mode */
+        .service-category,
+        .b2b-service,
+        .b2b-service-item,
+        .faq-item .flex,
+        .promo-card,
+        .order-card {
+            background-color: #23272f; /* dark gray */
+            color: #f3f4f6; /* light text */
+            transition: background 0.2s;
+        }
+        
+        /* Slightly lighter on hover for feedback */
+        .service-category:hover,
+        .b2b-service:hover,
+        .b2b-service-item:hover,
+        .faq-item .flex:hover {
+            background-color: #2d323c; /* lighter dark */
+            color: #fff;
+        }
+        
+        /* FAQ answer background for contrast */
+        .faq-answer {
+            background-color: #181b20; /* even darker for answer area */
+            color: #f3f4f6;
+        }
+        
+        /* Live chat background dark */
+        #chat-tab .bg-gray-100 {
+            background-color: #23272f !important;
+            color: #f3f4f6;
+        }
+        
+        /* Live chat message bubbles dark background */
+        #chat-tab .bg-white {
+            background-color: #23272f !important;
+            color: #f3f4f6;
+        }
+        
+        /* B2B business boxes default to dark background */
+        .b2b-service {
+            background-color: #23272f !important;
+            color: #f3f4f6;
+            transition: background 0.2s;
+        }
+        
+        .b2b-service:hover {
+            background-color: #2d323c !important;
+            color: #fff;
+        }
+        
+        /* B2B service screen top and bottom boxes dark background */
+        #b2b-service-screen .bg-blue-50,
+        #b2b-service-screen .border-dashed {
+            background-color: #23272f !important;
+            color: #f3f4f6;
+        }
+        
+        /* Refer & Earn box dark background */
+        .bg-white.rounded-lg.shadow.p-4.mb-6:has(h3[data-en="Refer & Earn"]) {
+            background-color: #23272f !important;
+            color: #f3f4f6;
+        }
+        
+        /* FRIEND100 code box in Refer & Earn section dark background */
+        .bg-gray-100.rounded-lg.mb-4:has(p.font-medium) {
+            background-color: #23272f !important;
+            color: #f3f4f6;
+        }
+
+        /* Book Service page: service info box dark background */
+        #booking-screen .p-4.bg-blue-50.rounded-lg {
+            background-color: #23272f !important;
+            color: #f3f4f6;
+        }
+
+        /* Fixer Details page: CNIC Verified box dark background */
+        #fixer-profile-screen .bg-green-50.rounded-lg {
+            background-color: #23272f !important;
+            color: #f3f4f6;
+        }
+
+        /* Booking Confirmed page: address box dark background */
+        #booking-confirmation-screen .bg-blue-50.p-4.rounded-lg {
+            background-color: #23272f !important;
+            color: #f3f4f6;
+        }
+
+        /* Add to <style> section for animation */
+        #live-tracking-modal .animate-move {
+            animation: moveDot 3s linear forwards;
+        }
+        @keyframes moveDot {
+            0% { left: 1rem; top: 7rem; }
+            50% { left: 6rem; top: 4rem; }
+            100% { left: 13rem; top: 1rem; }
+        }
+
+        /* Ensure the bottom navigation bar stays fixed */
+        .fixed.bottom-0 {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50; /* Ensure it stays above other elements */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+    <!-- App container -->
+    <div id="app-container" class="max-w-md mx-auto bg-white min-h-screen shadow-lg relative">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen active fade-in">
+            <div class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
+                <div class="w-24 h-24 rounded-full bg-primary flex items-center justify-center mb-8">
+                    <img src="data:image/png;base64,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qgf5D3783paiVy5fAY8hJC70telr1NfqifZft3rnTdl19IitiZluaw1r361e5ZWTc7PKVeTFFq0dtZjottcm9pHzvwqZYHD87BkZ8PFER1f02oo13LWtdLVDvaOik22mrQ/aCgH4EqEA8aY3Lnq4anVbip4uGNPqnbfMySCqZntzUP1korQb87ajK61G5SvKHYWivpWs0xYMPZE2fuN/smbPbltznZ6odJDXI++OcnQXyGZ3VjF3dvQFfY36Wp3Qk3zZpwa6QtVssz2jos32OlWu+rChUuOFodJs1OumNSS+NMDoQD69o58TGgx0up6GwGAPBvr8dbnlpducdeG0rVHLtc9UNY91e91VoqR5HBP9TDw/e0bATO1EaCIUIN70ZDDAdTJwspSrNn+++tVcydKjoxR5vK856epXwQG9JUevLvLu9984aiLVlomnHngoxjvHOWnBUNpNUW7IQMnbr4d5LnqSzNWnm9R75QUzA8KTknluMyvQ+Yq+Rn2tTgfzafjSk23WHp0kZ++u5sTfc/xY87oKubZzhq7tpMnIEeYEpidmPdmM+vZrR0HME32uekc/vbOfE/o3O3/4nsxZvszWBCfdlhMd3jpauw2eb9YyfN/Vmx0Nb/GI49agFz//NGTHY8D/CAXwiiI5cspb7Zzf7EZP/NsPH5KZSxaZL23y1hOUE3plrnefK5+/gK2JmrZgaNO7UzptUp/LXNcJyslUSKXPpW/9huaOjr5UoUBBearJQ46amSPS16HjJnRam76una7tHNXJf5PrZBNdy0Js6Ulu9oAnYhUMdPre/FUrbU3w0dk1TgatursNCmS7cXBszeIlpH/D+20pZp8s/FVmLVlsS4B3EQrgNbHpU44PbW7VZmpPc831+88+1EKqFilma7xP+4Q71rrblnzr0Xvvkx516/tk+548f95xEHJCg4He8tfJOgtKR9gPnDrZq88hIa3es8s+ilnEboOIdF/V97ech6CrNDzrokbr9+21NYD3EArgNXpgG3jfAzKidTuf9K/rybDXPffK6A5dYuw2iEgH/03pO8DxySk26pQqLWO79nTcOhJf+prf7thVHndtY28HA11O2duLQOnv0xkJTrs9MqVN63EaaaBysrJn5G6DyHQ7aSuCk/1JxzAk1FLNSFwIBfAqPVk9cX8T+WbwM46mWjmlB0oNG++4ToqxPQlr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"
+     alt="QuickFix Logo"
+     class="w-1150 h-1150 object-contain" />
+                </div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">QuickFix</h1>
+                <p class="text-gray-600 mb-8" data-en="Pakistan's #1 Home Services Platform" data-ur="پاکستان کا نمبر 1 گھریلو خدمات کا پلیٹ فارم">Pakistan's #1 Home Services Platform</p>
+                
+                <button id="signup-btn" class="w-full bg-primary text-white py-3 rounded-lg font-medium mb-4">
+                    <span data-en="Sign Up" data-ur="سائن اپ کریں">Sign Up</span>
+                </button>
+                <button id="login-btn" class="w-full border border-primary text-primary py-3 rounded-lg font-medium mb-4">
+                    <span data-en="Login" data-ur="لاگ ان کریں">Login</span>
+                </button>
+                <button id="skip-login-btn" class="w-full border border-gray-400 text-gray-400 py-3 rounded-lg font-medium mb-8">
+                    <span data-en="Skip Login" data-ur="لاگ ان چھوڑیں">Skip Login</span>
+                </button>
+                
+                <div class="flex items-center">
+                    <button id="lang-toggle" class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-globe mr-2"></i>
+                        <span id="current-lang">English</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signup Screen -->
+        <div id="signup-screen" class="screen hidden fade-in">
+            <div class="p-6">
+                <div class="flex items-center mb-6">
+                    <button id="back-to-welcome" class="mr-2">
+                        <i class="fas fa-arrow-left text-gray-800"></i>
+                    </button>
+                    <h1 class="text-xl font-bold text-gray-800" data-en="Create Account" data-ur="اکاؤنٹ بنائیں">Create Account</h1>
+                </div>
+                
+                <form id="signup-form" class="space-y-4">
+                    <div>
+                        <label class="block text-gray-600 mb-2" data-en="Full Name" data-ur="پورا نام">Full Name</label>
+                        <input type="text" class="w-full p-3 border border-gray-300 rounded-lg text-base" required="">
+                    </div>
+                    <div>
+                        <label class="block text-gray-600 mb-2" data-en="Phone Number" data-ur="فون نمبر">Phone Number</label>
+                        <input type="tel" class="w-full p-3 border border-gray-300 rounded-lg text-base" required="">
+                    </div>
+                    <div>
+                        <label class="block text-gray-600 mb-2" data-en="Email (optional)" data-ur="ای میل (اختیاری)">Email (optional)</label>
+                        <input type="email" class="w-full p-3 border border-gray-300 rounded-lg text-base">
+                    </div>
+                    <div>
+                        <label class="block text-gray-600 mb-2" data-en="Password" data-ur="پاس ورڈ">Password</label>
+                        <input type="password" class="w-full p-3 border border-gray-300 rounded-lg text-base" required="">
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-medium mt-6">
+                        <span data-en="Create Account" data-ur="اکاؤنٹ بنائیں">Create Account</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Screen -->
+        <div id="dashboard-screen" class="screen hidden">
+            <div class="p-6 pb-24">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800" data-en="Hey, there!" data-ur="ہیلو!">Hey, there!</h1>
+                        <p class="text-gray-600" data-en="What do you need fixed today?" data-ur="آج آپ کو کیا ٹھیک کرنے کی ضرورت ہے؟">What do you need fixed today?</p>
+                    </div>
+                    <div class="flex items-center">
+                        <button id="notifications-btn" class="mr-4 relative">
+                            <i class="fas fa-bell text-gray-600"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
+                        </button>
+                        <button id="profile-btn">
+                            <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
+                                <i class="fas fa-user text-gray-600"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Search Bar -->
+                <div class="relative mb-6">
+                    <input type="text" placeholder="Search for a service..." class="w-full p-3 pl-10 border border-gray-300 rounded-lg text-base" data-en-placeholder="Search for a service..." data-ur-placeholder="سروس تلاش کریں...">
+                    <i class="fas fa-search absolute left-3 top-3.5 text-gray-400"></i>
+                </div>
+                
+                <!-- Featured Services -->
+                <div class="mb-8">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-3" data-en="Popular Services" data-ur="مقبول خدمات">Popular Services</h2>
+                    <div class="grid grid-cols-4 gap-4">
+                        <div class="service-item text-center cursor-pointer" data-service="plumbing">
+                            <div class="w-14 h-14 mx-auto rounded-full bg-blue-100 flex items-center justify-center mb-2">
+                                <i class="fas fa-faucet text-blue-500"></i>
+                            </div>
+                            <p class="text-xs text-gray-600" data-en="Plumbing" data-ur="پلمبنگ">Plumbing</p>
+                        </div>
+                        <div class="service-item text-center cursor-pointer" data-service="electrical">
+                            <div class="w-14 h-14 mx-auto rounded-full bg-yellow-100 flex items-center justify-center mb-2">
+                                <i class="fas fa-bolt text-yellow-500"></i>
+                            </div>
+                            <p class="text-xs text-gray-600" data-en="Electrical" data-ur="بجلی">Electrical</p>
+                        </div>
+                        <div class="service-item text-center cursor-pointer" data-service="cleaning">
+                            <div class="w-14 h-14 mx-auto rounded-full bg-green-100 flex items-center justify-center mb-2">
+                                <i class="fas fa-broom text-green-500"></i>
+                            </div>
+                            <p class="text-xs text-gray-600" data-en="Cleaning" data-ur="صفائی">Cleaning</p>
+                        </div>
+                        <div class="service-item text-center cursor-pointer" data-service="appliances">
+                            <div class="w-14 h-14 mx-auto rounded-full bg-red-100 flex items-center justify-center mb-2">
+                                <i class="fas fa-tv text-red-500"></i>
+                            </div>
+                            <p class="text-xs text-gray-600" data-en="Appliances" data-ur="آلات">Appliances</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- All Service Categories -->
+                <div class="mb-8">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-3" data-en="All Services" data-ur="تمام خدمات">All Services</h2>
+                    <div class="space-y-3">
+                        <div class="service-category flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer" data-service="plumbing">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-faucet text-blue-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-800" data-en="Plumbing" data-ur="پلمبنگ">Plumbing</h3>
+                                <p class="text-xs text-gray-500" data-en="Fixes for leaks, clogs &amp; installations" data-ur="رساو، بندش اور انسٹالیشن کی مرمت">Fixes for leaks, clogs &amp; installations</p>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                        
+                        <div class="service-category flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer" data-service="electrical">
+                            <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-bolt text-yellow-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-800" data-en="Electrical" data-ur="بجلی">Electrical</h3>
+                                <p class="text-xs text-gray-500" data-en="Wiring, fixtures &amp; electrical repairs" data-ur="وائرنگ، فکسچرز اور بجلی کی مرمت">Wiring, fixtures &amp; electrical repairs</p>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                        
+                        <div class="service-category flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer" data-service="cleaning">
+                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-broom text-green-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-800" data-en="Cleaning" data-ur="صفائی">Cleaning</h3>
+                                <p class="text-xs text-gray-500" data-en="Home, office &amp; deep cleaning services" data-ur="گھر، دفتر اور گہری صفائی کی خدمات">Home, office &amp; deep cleaning services</p>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                        
+                        <div class="service-category flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer" data-service="appliances">
+                            <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-tv text-red-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-800" data-en="Appliances" data-ur="آلات">Appliances</h3>
+                                <p class="text-xs text-gray-500" data-en="Repair &amp; installation of home appliances" data-ur="گھریلو آلات کی مرمت اور انسٹالیشن">Repair &amp; installation of home appliances</p>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                        
+                        <div class="service-category flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer" data-service="pest-control">
+                            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-bug text-purple-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-800" data-en="Pest Control" data-ur="کیڑے مکوڑوں کا کنٹرول">Pest Control</h3>
+                                <p class="text-xs text-gray-500" data-en="Get rid of pests &amp; insects" data-ur="کیڑوں اور حشرات سے چھٹکارا حاصل کریں">Get rid of pests &amp; insects</p>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                        
+                        <div class="service-category flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer" data-service="painting">
+                            <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-paint-roller text-indigo-500"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-800" data-en="Painting" data-ur="پینٹنگ">Painting</h3>
+                                <p class="text-xs text-gray-500" data-en="Interior &amp; exterior painting services" data-ur="اندرونی اور بیرونی پینٹنگ کی خدمات">Interior &amp; exterior painting services</p>
+                            </div>
+                            <i class="fas fa-chevron-right text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- B2B Services -->
+                <div class="mb-8">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-3" data-en="For Businesses" data-ur="کاروباروں کے لیے">For Businesses</h2>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="b2b-service flex flex-col items-center justify-center p-4 border border-gray-200 rounded-lg bg-blue-50 cursor-pointer" data-service="office">
+                            <i class="fas fa-building text-blue-500 mb-2"></i>
+                            <p class="text-sm text-center font-medium" data-en="Office Solutions" data-ur="دفتری حل">Office Solutions</p>
+                        </div>
+                        <div class="b2b-service flex flex-col items-center justify-center p-4 border border-gray-200 rounded-lg bg-pink-50 cursor-pointer" data-service="salon">
+                            <i class="fas fa-spa text-pink-500 mb-2"></i>
+                            <p class="text-sm text-center font-medium" data-en="Salon &amp; Spa" data-ur="سیلون اور سپا">Salon &amp; Spa</p>
+                        </div>
+                        <div class="b2b-service flex flex-col items-center justify-center p-4 border border-gray-200 rounded-lg bg-green-50 cursor-pointer" data-service="clinic">
+                            <i class="fas fa-clinic-medical text-green-500 mb-2"></i>
+                            <p class="text-sm text-center font-medium" data-en="Clinic Setup" data-ur="کلینک سیٹ اپ">Clinic Setup</p>
+                        </div>
+                        <div class="b2b-service flex flex-col items-center justify-center p-4 border border-gray-200 rounded-lg bg-yellow-50 cursor-pointer" data-service="restaurant">
+                            <i class="fas fa-utensils text-yellow-500 mb-2"></i>
+                            <p class="text-sm text-center font-medium" data-en="Restaurant" data-ur="ریستوراں">Restaurant</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Offers & Promotions -->
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-3" data-en="Special Offers" data-ur="خصوصی آفرز">Special Offers</h2>
+                    <div class="overflow-x-auto flex space-x-4 pb-2">
+                        <div class="promo-card flex-shrink-0 w-64 p-4 bg-gradient-to-r from-primary to-purple-600 rounded-lg text-white">
+                            <h3 class="font-bold mb-1" data-en="First Order" data-ur="پہلا آرڈر">First Order</h3>
+                            <p class="text-sm mb-2" data-en="Get 20% off on your first service" data-ur="اپنی پہلی سروس پر 20٪ چھوٹ حاصل کریں">Get 20% off on your first service</p>
+                            <p class="text-xs font-bold">WELCOME20</p>
+                        </div>
+                        <div class="promo-card flex-shrink-0 w-64 p-4 bg-gradient-to-r from-yellow-500 to-red-500 rounded-lg text-white">
+                            <h3 class="font-bold mb-1" data-en="Referral Bonus" data-ur="حوالہ بونس">Referral Bonus</h3>
+                            <p class="text-sm mb-2" data-en="Refer a friend &amp; get Rs. 500 credit" data-ur="دوست کو بھیجیں اور 500 روپے کا کریڈٹ حاصل کریں">Refer a friend &amp; get Rs. 500 credit</p>
+                            <p class="text-xs font-bold">REFER500</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Navigation -->
+            <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-200 flex justify-between p-3">
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-primary" data-screen="dashboard-screen">
+                    <i class="fas fa-home text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Home" data-ur="ہوم">Home</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="orders-screen">
+                    <i class="fas fa-clipboard-list text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Orders" data-ur="آرڈرز">Orders</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="wallet-screen">
+                    <i class="fas fa-wallet text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Wallet" data-ur="والیٹ">Wallet</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="offers-screen">
+                    <i class="fas fa-tag text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Offers" data-ur="آفرز">Offers</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="support-screen">
+                    <i class="fas fa-headset text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Support" data-ur="سپورٹ">Support</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Orders Screen -->
+        <div id="orders-screen" class="screen hidden fade-in">
+            <div class="p-6 pb-24">
+                <h1 class="text-xl font-bold text-gray-800 mb-6" data-en="Your Orders" data-ur="آپ کے آرڈرز">Your Orders</h1>
+                
+                <div class="flex space-x-3 border-b border-gray-200 mb-6">
+                    <button class="order-tab-btn py-2 px-4 text-primary border-b-2 border-primary" data-tab="active-orders" data-en="Active" data-ur="فعال">Active</button>
+                    <button class="order-tab-btn py-2 px-4 text-gray-500" data-tab="completed-orders" data-en="Completed" data-ur="مکمل">Completed</button>
+                    <button class="order-tab-btn py-2 px-4 text-gray-500" data-tab="cancelled-orders" data-en="Cancelled" data-ur="منسوخ">Cancelled</button>
+                </div>
+                
+                <div id="active-orders" class="order-tab-content active">
+                    <div class="order-card bg-white rounded-lg shadow p-4 mb-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-medium text-gray-800">Tap Leakage Repair</h3>
+                                <p class="text-xs text-gray-500">Today, 4:00 PM</p>
+                            </div>
+                            <div class="px-2 py-1 bg-blue-100 rounded text-xs text-blue-600 font-medium" data-en="In Progress" data-ur="جاری ہے">In Progress</div>
+                        </div>
+                        <div class="flex items-center mt-3">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                                <i class="fas fa-user text-blue-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-800">Ahmed Khan</p>
+                                <div class="flex items-center">
+                                    <div class="flex items-center text-yellow-500 mr-1">
+                                        <i class="fas fa-star text-xs"></i>
+                                        <span class="text-xs text-gray-600 ml-1">4.5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="ml-auto px-3 py-1 bg-primary text-white rounded-lg text-sm" data-en="Track" data-ur="ٹریک کریں">Track</button>
+                        </div>
+                    </div>
+                    
+                    <div class="order-card bg-white rounded-lg shadow p-4 mb-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-medium text-gray-800">AC Service</h3>
+                                <p class="text-xs text-gray-500">Tomorrow, 10:00 AM</p>
+                            </div>
+                            <div class="px-2 py-1 bg-yellow-100 rounded text-xs text-yellow-600 font-medium" data-en="Scheduled" data-ur="شیڈول">Scheduled</div>
+                        </div>
+                        <div class="flex items-center mt-3">
+                            <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-2">
+                                <i class="fas fa-snowflake text-red-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-800">Service #AC84932</p>
+                                <p class="text-xs text-gray-500">Technician not yet assigned</p>
+                            </div>
+                            <button class="ml-auto px-3 py-1 border border-primary text-primary rounded-lg text-sm" data-en="Reschedule" data-ur="دوبارہ شیڈول کریں">Reschedule</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="completed-orders" class="order-tab-content hidden">
+                    <div class="order-card bg-white rounded-lg shadow p-4 mb-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-medium text-gray-800">Home Cleaning</h3>
+                                <p class="text-xs text-gray-500">May 15, 2023</p>
+                            </div>
+                            <div class="px-2 py-1 bg-green-100 rounded text-xs text-green-600 font-medium" data-en="Completed" data-ur="مکمل">Completed</div>
+                        </div>
+                        <div class="flex items-center mt-3">
+                            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-2">
+                                <i class="fas fa-broom text-green-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-800">Amina Bibi</p>
+                                <div class="flex items-center">
+                                    <div class="flex items-center text-yellow-500 mr-1">
+                                        <i class="fas fa-star text-xs"></i>
+                                        <span class="text-xs text-gray-600 ml-1">4.8</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="ml-auto px-3 py-1 bg-gray-200 text-gray-700 rounded-lg text-sm" data-en="Book Again" data-ur="دوبارہ بک کریں">Book Again</button>
+                        </div>
+                    </div>
+                    
+                    <div class="order-card bg-white rounded-lg shadow p-4 mb-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-medium text-gray-800">Fan Installation</h3>
+                                <p class="text-xs text-gray-500">April 29, 2023</p>
+                            </div>
+                            <div class="px-2 py-1 bg-green-100 rounded text-xs text-green-600 font-medium" data-en="Completed" data-ur="مکمل">Completed</div>
+                        </div>
+                        <div class="flex items-center mt-3">
+                            <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-2">
+                                <i class="fas fa-bolt text-yellow-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-800">Asif Ali</p>
+                                <div class="flex items-center">
+                                    <div class="flex items-center text-yellow-500 mr-1">
+                                        <i class="fas fa-star text-xs"></i>
+                                        <span class="text-xs text-gray-600 ml-1">4.3</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="ml-auto px-3 py-1 bg-gray-200 text-gray-700 rounded-lg text-sm" data-en="Book Again" data-ur="دوبارہ بک کریں">Book Again</button>
+                        </div>
+                    </div>
+                    
+                    <div class="order-card bg-white rounded-lg shadow p-4 mb-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-medium text-gray-800">Sink Repair</h3>
+                                <p class="text-xs text-gray-500">April 10, 2023</p>
+                            </div>
+                            <div class="px-2 py-1 bg-green-100 rounded text-xs text-green-600 font-medium" data-en="Completed" data-ur="مکمل">Completed</div>
+                        </div>
+                        <div class="flex items-center mt-3">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-2">
+                                <i class="fas fa-faucet text-blue-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-800">Ahmed Khan</p>
+                                <div class="flex items-center">
+                                    <div class="flex items-center text-yellow-500 mr-1">
+                                        <i class="fas fa-star text-xs"></i>
+                                        <span class="text-xs text-gray-600 ml-1">4.5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="ml-auto px-3 py-1 bg-gray-200 text-gray-700 rounded-lg text-sm" data-en="Book Again" data-ur="دوبارہ بک کریں">Book Again</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="cancelled-orders" class="order-tab-content hidden">
+                    <div class="order-card bg-white rounded-lg shadow p-4 mb-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-medium text-gray-800">Refrigerator Repair</h3>
+                                <p class="text-xs text-gray-500">May 5, 2023</p>
+                            </div>
+                            <div class="px-2 py-1 bg-red-100 rounded text-xs text-red-600 font-medium" data-en="Cancelled" data-ur="منسوخ">Cancelled</div>
+                        </div>
+                        <div class="flex items-center mt-3">
+                            <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center mr-2">
+                                <i class="fas fa-temperature-low text-red-500"></i>
+                            </div>
+                            <p class="text-xs text-gray-500" data-en="Cancelled due to technician unavailability" data-ur="ٹیکنیشن کی عدم دستیابی کی وجہ سے منسوخ">Cancelled due to technician unavailability</p>
+                            <button class="ml-auto px-3 py-1 bg-primary text-white rounded-lg text-sm" data-en="Rebook" data-ur="دوبارہ بک کریں">Rebook</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Navigation -->
+            <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-200 flex justify-between p-3">
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="dashboard-screen">
+                    <i class="fas fa-home text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Home" data-ur="ہوم">Home</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-primary" data-screen="orders-screen">
+                    <i class="fas fa-clipboard-list text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Orders" data-ur="آرڈرز">Orders</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="wallet-screen">
+                    <i class="fas fa-wallet text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Wallet" data-ur="والیٹ">Wallet</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="offers-screen">
+                    <i class="fas fa-tag text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Offers" data-ur="آفرز">Offers</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="support-screen">
+                    <i class="fas fa-headset text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Support" data-ur="سپورٹ">Support</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Wallet Screen -->
+        <div id="wallet-screen" class="screen hidden fade-in">
+            <div class="p-6 pb-24">
+                <h1 class="text-xl font-bold text-gray-800 mb-6" data-en="Your Wallet" data-ur="آپ کا والیٹ">Your Wallet</h1>
+                
+                <div class="bg-gradient-to-r from-primary to-purple-600 rounded-lg p-6 text-white mb-6">
+                    <h2 class="text-lg font-semibold mb-1" data-en="Available Balance" data-ur="دستیاب بیلنس">Available Balance</h2>
+                    <p class="text-3xl font-bold mb-4">Rs. 750</p>
+                    <div class="flex space-x-2">
+                        <button class="flex-1 bg-white bg-opacity-20 py-2 rounded-lg text-sm font-medium backdrop-blur-sm">
+                            <i class="fas fa-plus mr-1"></i>
+                            <span data-en="Add Money" data-ur="رقم شامل کریں">Add Money</span>
+                        </button>
+                        <button class="flex-1 bg-white bg-opacity-20 py-2 rounded-lg text-sm font-medium backdrop-blur-sm">
+                            <i class="fas fa-history mr-1"></i>
+                            <span data-en="History" data-ur="تاریخ">History</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-4 mb-6">
+                    <h3 class="font-semibold text-gray-800 mb-3" data-en="Refer &amp; Earn" data-ur="بھیجیں اور کمائیں">Refer & Earn</h3>
+                    <p class="text-sm text-gray-600 mb-4" data-en="Invite friends to QuickFix and get Rs. 100 for each friend's first booking" data-ur="دوستوں کو کوئک فکس پر مدعو کریں اور ہر دوست کی پہلی بکنگ پر 100 روپے حاصل کریں">Invite friends to QuickFix and get Rs. 100 for each friend's first booking</p>
+                    
+                    <div class="flex items-center p-3 bg-gray-100 rounded-lg mb-4">
+                        <p class="flex-1 font-medium text-gray-800 mr-2">FRIEND100</p>
+                        <button class="px-3 py-1 bg-primary text-white rounded-lg text-sm" data-en="Share" data-ur="شیئر کریں">Share</button>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-gray-800">5</p>
+                            <p class="text-xs text-gray-600" data-en="Friends Invited" data-ur="دوست مدعو">Friends Invited</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-gray-800">2</p>
+                            <p class="text-xs text-gray-600" data-en="Signed Up" data-ur="سائن اپ">Signed Up</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-primary">Rs. 200</p>
+                            <p class="text-xs text-gray-600" data-en="Earned" data-ur="کمایا">Earned</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-4 mb-6">
+                    <h3 class="font-semibold text-gray-800 mb-3" data-en="Recent Transactions" data-ur="حالیہ لین دین">Recent Transactions</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-arrow-down text-green-500"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-800" data-en="Referral Bonus" data-ur="حوالہ بونس">Referral Bonus</p>
+                                    <p class="text-xs text-gray-500">May 18, 2023</p>
+                                </div>
+                            </div>
+                            <p class="font-medium text-green-500">+Rs. 100</p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-arrow-up text-red-500"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-800" data-en="AC Service Payment" data-ur="اے سی سروس کی ادائیگی">AC Service Payment</p>
+                                    <p class="text-xs text-gray-500">May 12, 2023</p>
+                                </div>
+                            </div>
+                            <p class="font-medium text-red-500">-Rs. 500</p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-plus text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-800" data-en="Added to Wallet" data-ur="والیٹ میں شامل کیا گیا">Added to Wallet</p>
+                                    <p class="text-xs text-gray-500">May 5, 2023</p>
+                                </div>
+                            </div>
+                            <p class="font-medium text-green-500">+Rs. 1000</p>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-arrow-down text-green-500"></i>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-gray-800" data-en="Referral Bonus" data-ur="حوالہ بونس">Referral Bonus</p>
+                                    <p class="text-xs text-gray-500">May 1, 2023</p>
+                                </div>
+                            </div>
+                            <p class="font-medium text-green-500">+Rs. 100</p>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full text-primary text-center mt-4 text-sm font-medium" data-en="View All Transactions" data-ur="تمام لین دین دیکھیں">View All Transactions</button>
+                </div>
+            </div>
+            
+            <!-- Bottom Navigation -->
+            <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-200 flex justify-between p-3">
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="dashboard-screen">
+                    <i class="fas fa-home text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Home" data-ur="ہوم">Home</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="orders-screen">
+                    <i class="fas fa-clipboard-list text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Orders" data-ur="آرڈرز">Orders</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-primary" data-screen="wallet-screen">
+                    <i class="fas fa-wallet text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Wallet" data-ur="والیٹ">Wallet</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="offers-screen">
+                    <i class="fas fa-tag text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Offers" data-ur="آفرز">Offers</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="support-screen">
+                    <i class="fas fa-headset text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Support" data-ur="سپورٹ">Support</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Offers Screen -->
+        <div id="offers-screen" class="screen hidden fade-in">
+            <div class="p-6 pb-24">
+                <h1 class="text-xl font-bold text-gray-800 mb-6" data-en="Offers &amp; Promotions" data-ur="آفرز اور پروموشنز">Offers &amp; Promotions</h1>
+                
+                <div class="space-y-4">
+                    <div class="promo-card p-4 bg-gradient-to-r from-primary to-purple-600 rounded-lg text-white">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3 class="font-bold text-lg" data-en="First Order" data-ur="پہلا آرڈر">First Order</h3>
+                            <div class="px-2 py-1 bg-white bg-opacity-20 rounded text-xs text-white font-medium backdrop-blur-sm" data-en="New User" data-ur="نئے صارف">New User</div>
+                        </div>
+                        <p class="text-sm mb-3" data-en="Get 20% off on your first service booking with QuickFix. Maximum discount: Rs. 500" data-ur="کوئک فکس کے ساتھ اپنی پہلی سروس بکنگ پر 20٪ چھوٹ حاصل کریں۔ زیادہ سے زیادہ چھوٹ: 500 روپے">Get 20% off on your first service booking with QuickFix. Maximum discount: Rs. 500</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-xs opacity-75" data-en="Valid until" data-ur="تک درست">Valid until</p>
+                                <p class="text-sm font-bold">July 31, 2023</p>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <div class="bg-white text-primary px-3 py-1 rounded font-bold mb-1">WELCOME20</div>
+                                <button class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded" data-en="Apply" data-ur="اطلاق کریں">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="promo-card p-4 bg-gradient-to-r from-yellow-500 to-red-500 rounded-lg text-white">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3 class="font-bold text-lg" data-en="Referral Bonus" data-ur="حوالہ بونس">Referral Bonus</h3>
+                            <div class="px-2 py-1 bg-white bg-opacity-20 rounded text-xs text-white font-medium backdrop-blur-sm" data-en="For Everyone" data-ur="سب کے لیے">For Everyone</div>
+                        </div>
+                        <p class="text-sm mb-3" data-en="Refer a friend &amp; get Rs. 500 credit when they complete their first booking" data-ur="دوست کو بھیجیں اور 500 روپے کا کریڈٹ حاصل کریں جب وہ اپنی پہلی بکنگ مکمل کرے">Refer a friend &amp; get Rs. 500 credit when they complete their first booking</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-xs opacity-75" data-en="Unlimited Usage" data-ur="غیر محدود استعمال">Unlimited Usage</p>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <div class="bg-white text-yellow-500 px-3 py-1 rounded font-bold mb-1">REFER500</div>
+                                <button class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded" data-en="Share" data-ur="شیئر کریں">Share</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="promo-card p-4 bg-gradient-to-r from-green-500 to-teal-500 rounded-lg text-white">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3 class="font-bold text-lg" data-en="Weekend Special" data-ur="ویکینڈ خصوصی">Weekend Special</h3>
+                            <div class="px-2 py-1 bg-white bg-opacity-20 rounded text-xs text-white font-medium backdrop-blur-sm" data-en="Limited Time" data-ur="محدود وقت">Limited Time</div>
+                        </div>
+                        <p class="text-sm mb-3" data-en="Flat 15% off on all services booked on weekends. Maximum discount: Rs. 300" data-ur="ویکینڈز پر بک شدہ تمام خدمات پر 15٪ فلیٹ چھوٹ۔ زیادہ سے زیادہ چھوٹ: 300 روپے">Flat 15% off on all services booked on weekends. Maximum discount: Rs. 300</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-xs opacity-75" data-en="Valid until" data-ur="تک درست">Valid until</p>
+                                <p class="text-sm font-bold">June 30, the 2023</p>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <div class="bg-white text-green-500 px-3 py-1 rounded font-bold mb-1">WEEKEND15</div>
+                                <button class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded" data-en="Apply" data-ur="اطلاق کریں">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="promo-card p-4 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg text-white">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3 class="font-bold text-lg" data-en="Bundle Discount" data-ur="بنڈل ڈسکاؤنٹ">Bundle Discount</h3>
+                            <div class="px-2 py-1 bg-white bg-opacity-20 rounded text-xs text-white font-medium backdrop-blur-sm" data-en="Special Offer" data-ur="خاص آفر">Special Offer</div>
+                        </div>
+                        <p class="text-sm mb-3" data-en="Book 3 or more services together and get 25% discount on your total bill" data-ur="3 یا زیادہ خدمات ایک ساتھ بک کریں اور اپنے کل بل پر 25٪ چھوٹ حاصل کریں">Book 3 or more services together and get 25% discount on your total bill</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-xs opacity-75" data-en="Valid until" data-ur="تک درست">Valid until</p>
+                                <p class="text-sm font-bold">August 15, 2023</p>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <div class="bg-white text-blue-500 px-3 py-1 rounded font-bold mb-1">BUNDLE25</div>
+                                <button class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded" data-en="Apply" data-ur="اطلاق کریں">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="promo-card p-4 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg text-white">
+                        <div class="flex items-start justify-between mb-3">
+                            <h3 class="font-bold text-lg" data-en="Flash Sale" data-ur="فلیش سیل">Flash Sale</h3>
+                            <div class="px-2 py-1 bg-white bg-opacity-20 rounded text-xs text-white font-medium backdrop-blur-sm" data-en="48 Hours Only" data-ur="صرف 48 گھنٹے">48 Hours Only</div>
+                        </div>
+                        <p class="text-sm mb-3" data-en="30% off on all electrical services. Book now before the offer expires!" data-ur="تمام بجلی کی خدمات پر 30٪ چھوٹ۔ آفر ختم ہونے سے پہلے ابھی بک کریں!">30% off on all electrical services. Book now before the offer expires!</p>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="text-xs opacity-75" data-en="Expires in" data-ur="ختم ہو جائے گا">Expires in</p>
+                                <p class="text-sm font-bold">23:45:12</p>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <div class="bg-white text-red-500 px-3 py-1 rounded font-bold mb-1">FLASH30</div>
+                                <button class="text-xs bg-white bg-opacity-20 px-2 py-1 rounded" data-en="Apply" data-ur="اطلاق کریں">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Navigation -->
+            <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-200 flex justify-between p-3">
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="dashboard-screen">
+                    <i class="fas fa-home text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Home" data-ur="ہوم">Home</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="orders-screen">
+                    <i class="fas fa-clipboard-list text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Orders" data-ur="آرڈرز">Orders</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="wallet-screen">
+                    <i class="fas fa-wallet text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Wallet" data-ur="والیٹ">Wallet</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-primary" data-screen="offers-screen">
+                    <i class="fas fa-tag text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Offers" data-ur="آفرز">Offers</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="support-screen">
+                    <i class="fas fa-headset text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Support" data-ur="سپورٹ">Support</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Support Screen -->
+        <div id="support-screen" class="screen hidden fade-in">
+            <div class="p-6 pb-24">
+                <h1 class="text-xl font-bold text-gray-800 mb-6" data-en="Help &amp; Support" data-ur="مدد اور سپورٹ">Help &amp; Support</h1>
+                
+                <div class="flex space-x-1 border-b border-gray-200 mb-6">
+                    <button class="support-tab-btn py-2 px-3 text-primary border-b-2 border-primary text-sm" data-tab="faqs-tab" data-en="FAQs" data-ur="عمومی سوالات">FAQs</button>
+                    <button class="support-tab-btn py-2 px-3 text-gray-500 text-sm" data-tab="chat-tab" data-en="Live Chat" data-ur="لائیو چیٹ">Live Chat</button>
+                    <button class="support-tab-btn py-2 px-3 text-gray-500 text-sm" data-tab="issue-tab" data-en="Raise Issue" data-ur="مسئلہ اٹھائیں">Raise Issue</button>
+                    <button class="support-tab-btn py-2 px-3 text-gray-500 text-sm" data-tab="call-tab" data-en="Call Us" data-ur="ہمیں کال کریں">Call Us</button>
+                </div>
+                
+                <!-- FAQs Tab -->
+                <div id="faqs-tab" class="support-tab-content active">
+                    <div class="space-y-4">
+                        <div class="faq-item">
+                            <div class="flex justify-between items-center p-3 bg-gray-100 rounded-lg cursor-pointer">
+                                <p class="font-medium text-gray-800" data-en="How do I cancel a booking?" data-ur="میں بکنگ کیسے منسوخ کروں؟">How do I cancel a booking?</p>
+                                <i class="fas fa-chevron-down text-gray-500"></i>
+                            </div>
+                            <div class="faq-answer hidden p-3">
+                                <p class="text-sm text-gray-600" data-en="To cancel a booking, go to the Orders tab, select the booking you want to cancel, and tap on the 'Cancel' button. Please note that cancellations made less than 2 hours before the scheduled service may incur a cancellation fee." data-ur="بکنگ منسوخ کرنے کے لیے، آرڈرز ٹیب پر جائیں، اس بکنگ کو منتخب کریں جسے آپ منسوخ کرنا چاہتے ہیں، اور 'منسوخ' بٹن پر ٹیپ کریں۔ براہ کرم نوٹ کریں کہ شیڈول سروس سے 2 گھنٹے سے کم وقت پہلے کی گئی منسوخی پر منسوخی فیس لاگو ہو سکتی ہے۔">To cancel a booking, go to the Orders tab, select the booking you want to cancel, and tap on the 'Cancel' button. Please note that cancellations made less than 2 hours before the scheduled service may incur a cancellation fee.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="flex justify-between items-center p-3 bg-gray-100 rounded-lg cursor-pointer">
+                                <p class="font-medium text-gray-800" data-en="How are QuickFix service providers verified?" data-ur="کوئک فکس سروس فراہم کنندگان کی تصدیق کیسے کی جاتی ہے؟">How are QuickFix service providers verified?</p>
+                                <i class="fas fa-chevron-down text-gray-500"></i>
+                            </div>
+                            <div class="faq-answer hidden p-3">
+                                <p class="text-sm text-gray-600" data-en="All QuickFix service providers undergo a rigorous verification process. This includes verification of their CNIC, professional certifications, experience, background checks, and skill assessment. We also conduct regular quality checks and monitor customer feedback to ensure high service standards." data-ur="تمام کوئک فکس سروس فراہم کنندگان ایک سخت تصدیقی عمل سے گزرتے ہیں۔ اس میں ان کے شناختی کارڈ، پیشہ ورانہ سرٹیفکیٹ، تجربے، پس منظر کی جانچ، اور مہارت کی تشخیص کی تصدیق شامل ہے۔ ہم باقاعدگی سے معیار کی جانچ بھی کرتے ہیں اور اعلی سروس کے معیار کو یقینی بنانے کے لیے کسٹمر فیڈ بیک پر نظر رکھتے ہیں۔">All QuickFix service providers undergo a rigorous verification process. This includes verification of their CNIC, professional certifications, experience, background checks, and skill assessment. We also conduct regular quality checks and monitor customer feedback to ensure high service standards.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="flex justify-between items-center p-3 bg-gray-100 rounded-lg cursor-pointer">
+                                <p class="font-medium text-gray-800" data-en="What if I'm not satisfied with the service?" data-ur="اگر میں سروس سے مطمئن نہیں ہوں تو کیا ہوگا؟">What if I'm not satisfied with the service?</p>
+                                <i class="fas fa-chevron-down text-gray-500"></i>
+                            </div>
+                            <div class="faq-answer hidden p-3">
+                                <p class="text-sm text-gray-600" data-en="Your satisfaction is our priority. If you're not satisfied with the service, you can raise a complaint through the 'Raise Issue' tab in the Support section within 24 hours of service completion. Our team will investigate the matter and offer an appropriate solution, which may include service re-do, partial refund, or full refund depending on the situation." data-ur="آپ کی اطمینان ہماری ترجیح ہے۔ اگر آپ سروس سے مطمئن نہیں ہیں، تو آپ سروس کی تکمیل کے 24 گھنٹوں کے اندر سپورٹ سیکشن میں 'مسئلہ اٹھائیں' ٹیب کے ذریعے شکایت درج کر سکتے ہیں۔ ہماری ٹیم معاملے کی تحقیقات کرے گی اور موزوں حل پیش کرے گی، جس میں سروس کو دوبارہ کرنا، جزوی ریفنڈ، یا صورتحال کے مطابق مکمل ریفنڈ شامل ہو سکتا ہے۔">Your satisfaction is our priority. If you're not satisfied with the service, you can raise a complaint through the 'Raise Issue' tab in the Support section within 24 hours of service completion. Our team will investigate the matter and offer an appropriate solution, which may include service re-do, partial refund, or full refund depending on the situation.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="flex justify-between items-center p-3 bg-gray-100 rounded-lg cursor-pointer">
+                                <p class="font-medium text-gray-800" data-en="How do I pay for services?" data-ur="میں خدمات کی ادائیگی کیسے کروں؟">How do I pay for services?</p>
+                                <i class="fas fa-chevron-down text-gray-500"></i>
+                            </div>
+                            <div class="faq-answer hidden p-3">
+                                <p class="text-sm text-gray-600" data-en="QuickFix offers multiple payment options: cash payment after service completion, wallet payment using your QuickFix wallet balance, or online payment via credit/debit cards or bank transfers. For certain premium services, a partial advance payment may be required at the time of booking." data-ur="کوئک فکس متعدد ادائیگی کے اختیارات پیش کرتا ہے: سروس کی تکمیل کے بعد نقد ادائیگی، اپنے کوئک فکس والیٹ بیلنس کا استعمال کرتے ہوئے والیٹ ادائیگی، یا کریڈٹ/ڈیبٹ کارڈز یا بینک ٹرانسفر کے ذریعے آن لائن ادائیگی۔ کچھ پریمیم خدمات کے لیے، بکنگ کے وقت جزوی پیشگی ادائیگی کی ضرورت ہو سکتی ہے۔">QuickFix offers multiple payment options: cash payment after service completion, wallet payment using your QuickFix wallet balance, or online payment via credit/debit cards or bank transfers. For certain premium services, a partial advance payment may be required at the time of booking.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="flex justify-between items-center p-3 bg-gray-100 rounded-lg cursor-pointer">
+                                <p class="font-medium text-gray-800" data-en="Do services come with any warranty?" data-ur="کیا خدمات کسی وارنٹی کے ساتھ آتی ہیں؟">Do services come with any warranty?</p>
+                                <i class="fas fa-chevron-down text-gray-500"></i>
+                            </div>
+                            <div class="faq-answer hidden p-3">
+                                <p class="text-sm text-gray-600" data-en="Yes, most services come with a warranty period ranging from 7 to 30 days depending on the type of service. During this period, if you face any issues related to the service that was performed, we will fix it free of charge. The warranty details for each service are mentioned in the service description." data-ur="ہاں، زیادہ تر خدمات سروس کی قسم کے لحاظ سے 7 سے 30 دنوں تک کی وارنٹی مدت کے ساتھ آتی ہیں۔ اس مدت کے دوران، اگر آپ کو انجام دی گئی سروس سے متعلق کوئی مسئلہ درپیش ہے، تو ہم اسے مفت میں ٹھیک کریں گے۔ ہر سروس کے لیے وارنٹی کی تفصیلات سروس کی تفصیل میں بیان کی گئی ہیں۔">Yes, most services come with a warranty period ranging from 7 to 30 days depending on the type of service. During this period, if you face any issues related to the service that was performed, we will fix it free of charge. The warranty details for each service are mentioned in the service description.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Live Chat Tab -->
+                <div id="chat-tab" class="support-tab-content hidden">
+                    <div class="bg-gray-100 rounded-lg p-4 mb-4 h-80 overflow-y-auto">
+                        <div class="text-center mb-4">
+                            <p class="text-xs text-gray-500">Today, 2:30 PM</p>
+                        </div>
+                        
+                        <div class="flex flex-col space-y-3">
+                            <div class="flex justify-start">
+                                <div class="bg-white rounded-lg p-3 max-w-xs shadow-sm">
+                                    <p class="text-sm text-gray-800" data-en="Hello! How can I assist you today?" data-ur="ہیلو! میں آج آپ کی کیسے مدد کر سکتا ہوں؟">Hello! How can I assist you today?</p>
+                                    <p class="text-xs text-gray-500 text-right">2:30 PM</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end">
+                                <div class="bg-primary text-white rounded-lg p-3 max-w-xs shadow-sm">
+                                    <p class="text-sm" data-en="I have a question about my recent plumbing service" data-ur="مجھے اپنی حالیہ پلمبنگ سروس کے بارے میں ایک سوال ہے">I have a question about my recent plumbing service</p>
+                                    <p class="text-xs text-white text-right opacity-75">2:31 PM</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-start">
+                                <div class="bg-white rounded-lg p-3 max-w-xs shadow-sm">
+                                    <p class="text-sm text-gray-800" data-en="I'd be happy to help with that. Could you please provide your order number?" data-ur="میں اس میں آپ کی مدد کرنے میں خوش ہوں۔ کیا آپ براہ کرم اپنا آرڈر نمبر فراہم کر سکتے ہیں؟">I'd be happy to help with that. Could you please provide your order number?</p>
+                                    <p class="text-xs text-gray-500 text-right">2:32 PM</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end">
+                                <div class="bg-primary text-white rounded-lg p-3 max-w-xs shadow-sm">
+                                    <p class="text-sm" data-en="It's QF84721093" data-ur="یہ QF84721093 ہے">It's QF84721093</p>
+                                    <p class="text-xs text-white text-right opacity-75">2:33 PM</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-start">
+                                <div class="bg-white rounded-lg p-3 max-w-xs shadow-sm">
+                                    <p class="text-sm text-gray-800" data-en="Thank you. I can see your plumbing service for tap leakage repair was completed today at 4:30 PM. What question do you have about it?" data-ur="شکریہ۔ میں دیکھ سکتا ہوں کہ آپ کی نل کے رساؤ کی مرمت کے لیے پلمبنگ سروس آج شام 4:30 بجے مکمل ہوئی تھی۔ آپ کو اس کے بارے میں کیا سوال ہے؟">Thank you. I can see your plumbing service for tap leakage repair was completed today at 4:30 PM. What question do you have about it?</p>
+                                    <p class="text-xs text-gray-500 text-right">2:35 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <input type="text" placeholder="Type your message..." class="w-full p-3 pr-12 border border-gray-300 rounded-lg text-base" data-en-placeholder="Type your message..." data-ur-placeholder="اپنا پیغام ٹائپ کریں...">
+                        <button class="absolute right-3 top-3 text-primary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Raise Issue Tab -->
+                <div id="issue-tab" class="support-tab-content hidden">
+                    <form class="space-y-4">
+                        <div>
+                            <label class="block text-gray-600 mb-2" data-en="Order Number" data-ur="آرڈر نمبر">Order Number</label>
+                            <input type="text" placeholder="e.g. QF84721093" class="w-full p-3 border border-gray-300 rounded-lg text-base" data-en-placeholder="e.g. QF84721093" data-ur-placeholder="مثال کے طور پر QF84721093">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-600 mb-2" data-en="Issue Type" data-ur="مسئلہ کی قسم">Issue Type</label>
+                            <select class="w-full p-3 border border-gray-300 rounded-lg text-base">
+                                <option value="" data-en="Select issue type" data-ur="مسئلہ کی قسم منتخب کریں">Select issue type</option>
+                                <option value="quality" data-en="Quality of service" data-ur="سروس کا معیار">Quality of service</option>
+                                <option value="behavior" data-en="Service provider behavior" data-ur="سروس فراہم کنندہ کا رویہ">Service provider behavior</option>
+                                <option value="delay" data-en="Delay in service" data-ur="سروس میں تاخیر">Delay in service</option>
+                                <option value="billing" data-en="Billing/Payment issue" data-ur="بلنگ/ادائیگی کا مسئلہ">Billing/Payment issue</option>
+                                <option value="other" data-en="Other" data-ur="دیگر">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-600 mb-2" data-en="Describe Your Issue" data-ur="اپنے مسئلے کی تفصیل بیان کریں">Describe Your Issue</label>
+                            <textarea class="w-full p-3 border border-gray-300 rounded-lg text-base h-32" placeholder="Please provide details about your issue..." data-en-placeholder="Please provide details about your issue..." data-ur-placeholder="براہ کرم اپنے مسئلے کے بارے میں تفصیلات فراہم کریں..."></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-600 mb-2" data-en="Attach Photos (Optional)" data-ur="تصاویر منسلک کریں (اختیاری)">Attach Photos (Optional)</label>
+                            <div class="border border-dashed border-gray-300 rounded-lg p-4 text-center">
+                                <i class="fas fa-camera text-gray-400 text-2xl mb-2"></i>
+                                <p class="text-sm text-gray-500" data-en="Tap to upload photos" data-ur="تصاویر اپ لوڈ کرنے کے لیے ٹیپ کریں">Tap to upload photos</p>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-medium">
+                            <span data-en="Submit Issue" data-ur="مسئلہ جمع کریں">Submit Issue</span>
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Call Us Tab -->
+                <div id="call-tab" class="support-tab-content hidden">
+                    <div class="bg-white rounded-lg shadow p-6 text-center mb-6">
+                        <div class="w-16 h-16 rounded-full bg-primary mx-auto flex items-center justify-center mb-4">
+                            <i class="fas fa-phone-alt text-white text-2xl"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-800 text-lg mb-2" data-en="Customer Support" data-ur="کسٹمر سپورٹ">Customer Support</h3>
+                        <p class="text-gray-600 mb-4" data-en="We're available 9:00 AM to 10:00 PM, 7 days a week" data-ur="ہم صبح 9:00 بجے سے رات 10:00 بجے تک، ہفتے کے 7 دن دستیاب ہیں">We're available 9:00 AM to 10:00 PM, 7 days a week</p>
+                        <a href="tel:03001234567" class="inline-block w-full bg-primary text-white py-3 rounded-lg font-medium mb-2">
+                            <i class="fas fa-phone-alt mr-2"></i>
+                            <span data-en="Call Helpline" data-ur="ہیلپ لائن پر کال کریں">Call Helpline</span>
+                        </a>
+                        <p class="text-sm text-gray-500" data-en="0300-123-4567" data-ur="0300-123-4567">0300-123-4567</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6 text-center">
+                        <div class="w-16 h-16 rounded-full bg-green-500 mx-auto flex items-center justify-center mb-4">
+                            <i class="fab fa-whatsapp text-white text-2xl"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-800 text-lg mb-2" data-en="WhatsApp Support" data-ur="واٹس ایپ سپورٹ">WhatsApp Support</h3>
+                        <p class="text-gray-600 mb-4" data-en="Get quick answers to your queries" data-ur="اپنے سوالات کے فوری جوابات حاصل کریں">Get quick answers to your queries</p>
+                        <a href="https://wa.me/923001234567" class="inline-block w-full bg-green-500 text-white py-3 rounded-lg font-medium mb-2">
+                            <i class="fab fa-whatsapp mr-2"></i>
+                            <span data-en="Chat on WhatsApp" data-ur="واٹس ایپ پر چیٹ کریں">Chat on WhatsApp</span>
+                        </a>
+                        <p class="text-sm text-gray-500" data-en="0300-123-4567" data-ur="0300-123-4567">0300-123-4567</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Navigation -->
+            <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-200 flex justify-between p-3">
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="dashboard-screen">
+                    <i class="fas fa-home text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Home" data-ur="ہوم">Home</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="orders-screen">
+                    <i class="fas fa-clipboard-list text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Orders" data-ur="آرڈرز">Orders</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="wallet-screen">
+                    <i class="fas fa-wallet text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Wallet" data-ur="والیٹ">Wallet</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="offers-screen">
+                    <i class="fas fa-tag text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Offers" data-ur="آفرز">Offers</span>
+                </button>
+                <button class="bottom-nav-item flex flex-col items-center w-1/5 text-gray-500" data-screen="support-screen">
+                    <i class="fas fa-headset text-lg"></i>
+                    <span class="text-xs mt-1" data-en="Support" data-ur="سپورٹ">Support</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sub-service Screen -->
+        <div id="sub-service-screen" class="screen hidden fade-in">
+            <div class="p-6">
+                <div class="flex items-center mb-6">
+                    <button class="back-btn mr-2">
+                        <i class="fas fa-arrow-left text-gray-800"></i>
+                    </button>
+                    <h1 id="service-title" class="text-xl font-bold text-gray-800">Plumbing Services</h1>
+                </div>
+                
+                <div id="sub-services-container" class="space-y-3">
+                    <!-- Sub-services will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- B2B Service Screen -->
+        <div id="b2b-service-screen" class="screen hidden fade-in">
+            <div class="p-6">
+                <div class="flex items-center mb-6">
+                    <button class="back-btn mr-2">
+                        <i class="fas fa-arrow-left text-gray-800"></i>
+                    </button>
+                    <h1 id="b2b-service-title" class="text-xl font-bold text-gray-800">Office Solutions</h1>
+                </div>
+                
+                <div class="bg-blue-50 p-4 rounded-lg mb-6">
+                    <h2 class="font-semibold text-gray-800 mb-2" data-en="Business Services" data-ur="کاروباری خدمات">Business Services</h2>
+                    <p class="text-sm text-gray-600" data-en="Specialized solutions for your business needs with competitive pricing and professional service" data-ur="مسابقتی قیمتوں اور پیشہ ورانہ خدمت کے ساتھ آپ کی کاروباری ضروریات کے لیے خصوصی حل">Specialized solutions for your business needs with competitive pricing and professional service</p>
+                </div>
+                
+                <div id="b2b-services-container" class="space-y-3">
+                    <!-- B2B services for specific category -->
+                    <div class="b2b-service-item flex items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-plug text-blue-500"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800" data-en="Electrical Maintenance" data-ur="بجلی کی دیکھ بھال">Electrical Maintenance</h3>
+                            <p class="text-sm text-gray-500" data-en="Complete electrical system maintenance" data-ur="مکمل بجلی کے نظام کی دیکھ بھال">Complete electrical system maintenance</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </div>
+                    
+                    <div class="b2b-service-item flex items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-broom text-green-500"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800" data-en="Commercial Cleaning" data-ur="کمرشل صفائی">Commercial Cleaning</h3>
+                            <p class="text-sm text-gray-500" data-en="Regular &amp; deep cleaning services" data-ur="باقاعدہ اور گہری صفائی کی خدمات">Regular &amp; deep cleaning services</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </div>
+                    
+                    <div class="b2b-service-item flex items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-toolbox text-red-500"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800" data-en="Plumbing System Maintenance" data-ur="پلمبنگ سسٹم کی دیکھ بھال">Plumbing System Maintenance</h3>
+                            <p class="text-sm text-gray-500" data-en="Regular maintenance &amp; emergency fixes" data-ur="باقاعدہ دیکھ بھال اور ہنگامی مرمت">Regular maintenance &amp; emergency fixes</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </div>
+                    
+                    <div class="b2b-service-item flex items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-paint-roller text-indigo-500"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800" data-en="Commercial Painting" data-ur="کمرشل پینٹنگ">Commercial Painting</h3>
+                            <p class="text-sm text-gray-500" data-en="Interior &amp; exterior painting services" data-ur="اندرونی اور بیرونی پینٹنگ کی خدمات">Interior &amp; exterior painting services</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </div>
+                    
+                    <div class="b2b-service-item flex items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-snowflake text-yellow-500"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-800" data-en="HVAC Services" data-ur="ایچ وی اے سی خدمات">HVAC Services</h3>
+                            <p class="text-sm text-gray-500" data-en="AC, heating &amp; ventilation maintenance" data-ur="اے سی، ہیٹنگ اور وینٹیلیشن کی دیکھ بھال">AC, heating &amp; ventilation maintenance</p>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 border border-dashed border-primary rounded-lg bg-blue-50">
+                    <h3 class="font-semibold text-gray-800 mb-2" data-en="Looking for customized business solutions?" data-ur="کیا آپ اپنی مرضی کے مطابق کاروباری حل تلاش کر رہے ہیں؟">Looking for customized business solutions?</h3>
+                    <p class="text-sm text-gray-600 mb-4" data-en="Get a tailored quote for your specific business requirements" data-ur="اپنی مخصوص کاروباری ضروریات کے لیے ایک مرضی کے مطابق قیمت حاصل کریں">Get a tailored quote for your specific business requirements</p>
+                    <button class="w-full bg-primary text-white py-3 rounded-lg font-medium">
+                        <span data-en="Request a Quote" data-ur="قیمت کی درخواست کریں">Request a Quote</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Screen -->
+        <div id="booking-screen" class="screen hidden fade-in">
+            <div class="p-6">
+                <div class="flex items-center mb-6">
+                    <button class="back-btn mr-2">
+                        <i class="fas fa-arrow-left text-gray-800"></i>
+                    </button>
+                    <h1 id="booking-title" class="text-xl font-bold text-gray-800" data-en="Book Service" data-ur="سروس بک کریں">Book Service</h1>
+                </div>
+                
+                <div class="space-y-6">
+                    <div class="p-4 bg-blue-50 rounded-lg">
+                        <h2 id="sub-service-title" class="font-medium text-gray-800">Tap Leakage Repair</h2>
+                        <p class="text-sm text-gray-600" data-en="Starting from Rs. 500" data-ur="500 روپے سے شروع">Starting from Rs. 500</p>
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-800 mb-3" data-en="Location" data-ur="مقام">Location</h2>
+                        <div class="relative mb-4">
+                            <input type="text" placeholder="Enter your address" class="w-full p-3 pl-10 border border-gray-300 rounded-lg text-base" data-en-placeholder="Enter your address" data-ur-placeholder="اپنا پتہ درج کریں">
+                            <i class="fas fa-map-marker-alt absolute left-3 top-3.5 text-gray-400"></i>
+                        </div>
+                        <button class="flex items-center text-primary">
+                            <i class="fas fa-crosshairs mr-2"></i>
+                            <span data-en="Use current location" data-ur="موجودہ مقام استعمال کریں">Use current location</span>
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-800 mb-3" data-en="Schedule" data-ur="شیڈول">Schedule</h2>
+                        <div class="grid grid-cols-2 gap-3 mb-4">
+                            <div>
+                                <label class="block text-gray-600 mb-2" data-en="Date" data-ur="تاریخ">Date</label>
+                                <input type="date" class="w-full p-3 border border-gray-300 rounded-lg text-base">
+                            </div>
+                            <div>
+                                <label class="block text-gray-600 mb-2" data-en="Time" data-ur="وقت">Time</label>
+                                <select class="w-full p-3 border border-gray-300 rounded-lg text-base">
+                                    <option value="current">Current time</option>
+                                    <option value="8am">8:00 AM</option>
+                                    <option value="9am">9:00 AM</option>
+                                    <option value="10am">10:00 AM</option>
+                                    <option value="11am">11:00 AM</option>
+                                    <option value="12pm">12:00 PM</option>
+                                    <option value="1pm">1:00 PM</option>
+                                    <option value="2pm">2:00 PM</option>
+                                    <option value="3pm">3:00 PM</option>
+                                    <option value="4pm">4:00 PM</option>
+                                    <option value="5pm">5:00 PM</option>
+                                    <option value="6pm">6:00 PM</option>
+                                    <option value="7pm">7:00 PM</option>
+                                    <option value="8pm">8:00 PM</option>
+                                    <option value="9pm">9:00 PM</option>
+                                    <option value="10pm">10:00 PM</option>
+                                    <option value="11pm">11:00 PM</option>
+                                    <option value="12am">12:00 AM</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-800 mb-3" data-en="Additional Notes" data-ur="اضافی نوٹس">Additional Notes</h2>
+                        <textarea class="w-full p-3 border border-gray-300 rounded-lg text-base h-24" placeholder="Any additional details about the service..." data-en-placeholder="Any additional details about the service..." data-ur-placeholder="سروس کے بارے میں کوئی اضافی تفصیلات..."></textarea>
+                    </div>
+                    
+                    <button id="find-fixer-btn" class="w-full bg-primary text-white py-3 rounded-lg font-medium">
+                        <span data-en="Find a Fixer" data-ur="فکسر تلاش کریں">Find a Fixer</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fixer Matching Screen -->
+        <div id="fixer-matching-screen" class="screen hidden fade-in">
+            <div class="p-6">
+                <div class="flex items-center mb-6">
+                    <button class="back-btn mr-2">
+                        <i class="fas fa-arrow-left text-gray-800"></i>
+                    </button>
+                    <h1 class="text-xl font-bold text-gray-800" data-en="Finding a Fixer" data-ur="فکسر تلاش کر رہے ہیں">Finding a Fixer</h1>
+                </div>
+                
+                <div class="flex flex-col items-center justify-center p-8">
+                    <div class="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center mb-6">
+                        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-primary"></div>
+                    </div>
+                    <h2 class="text-lg font-semibold text-gray-800 mb-2" data-en="Searching for the best Fixer" data-ur="بہترین فکسر کی تلاش جاری ہے">Searching for the best Fixer</h2>
+                    <p class="text-gray-600 text-center mb-8" data-en="We're matching you with a verified service provider" data-ur="ہم آپ کو ایک تصدیق شدہ سروس فراہم کنندہ سے جوڑ رہے ہیں">We're matching you with a verified service provider</p>
+                    
+                    <div class="w-full mb-6">
+                        <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
+                            <div class="h-full bg-primary rounded-full" style="width: 70%; animation: progress 2s linear infinite;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 w-full">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            <span class="text-sm text-gray-600" data-en="Looking for available Fixers nearby" data-ur="قریب دستیاب فکسرز کی تلاش">Looking for available Fixers nearby</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                            <span class="text-sm text-gray-600" data-en="Checking ratings and reviews" data-ur="ریٹنگ اور جائزے چیک کر رہے ہیں">Checking ratings and reviews</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-spinner fa-spin text-primary mr-2"></i>
+                            <span class="text-sm text-gray-600" data-en="Confirming availability" data-ur="دستیابی کی تصدیق کر رہے ہیں">Confirming availability</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="show-fixer-btn" class="w-full bg-gray-200 text-gray-500 py-3 rounded-lg font-medium mt-8" disabled="">
+                    <span data-en="Please wait..." data-ur="برائے مہربانی انتظار کریں...">Please wait...</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Fixer Profile Screen -->
+        <div id="fixer-profile-screen" class="screen hidden fade-in">
+            <div class="p-6">
+                <div class="flex items-center mb-6">
+                    <button class="back-btn mr-2">
+                        <i class="fas fa-arrow-left text-gray-800"></i>
+                    </button>
+                    <h1 class="text-xl font-bold text-gray-800" data-en="Fixer Details" data-ur="فکسر کی تفصیلات">Fixer Details</h1>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-4 mb-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-16 h-16 rounded-full bg-gray-300 mr-4 overflow-hidden">
+                            <div class="w-full h-full flex items-center justify-center bg-blue-100">
+                                <i class="fas fa-user text-blue-500 text-2xl"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold text-gray-800">Ahmed Khan</h2>
+                            <p class="text-sm text-gray-600" id="fixer-expert-title" data-en="Plumbing Expert" data-ur="پلمبنگ ماہر">Plumbing Expert</p>
+                            <div class="flex items-center mt-1">
+                                <div class="flex items-center text-yellow-500 mr-2">
+                                    <i class="fas fa-star text-xs"></i>
+                                    <i class="fas fa-star text-xs"></i>
+                                    <i class="fas fa-star text-xs"></i>
+                                    <i class="fas fa-star text-xs"></i>
+                                    <i class="fas fa-star-half-alt text-xs"></i>
+                                </div>
+                                <span class="text-xs text-gray-600">4.5 (126 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg mb-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-shield-alt text-green-500 mr-2"></i>
+                            <span class="text-sm font-medium text-gray-800" data-en="CNIC Verified" data-ur="شناختی کارڈ تصدیق شدہ">CNIC Verified</span>
+                        </div>
+                        <i class="fas fa-check-circle text-green-500"></i>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-tools text-blue-500 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-800" data-en="8+ years experience" data-ur="8+ سال کا تجربہ">8+ years experience</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-briefcase text-purple-500 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-800" data-en="450+ jobs completed" data-ur="450+ مکمل کردہ کام">450+ jobs completed</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-certificate text-yellow-500 text-sm"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-800" data-en="Certified professional" data-ur="سرٹیفائڈ پیشہ ور">Certified professional</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-4 mb-6">
+                    <h3 class="font-semibold text-gray-800 mb-3" data-en="Service Details" data-ur="سروس کی تفصیلات">Service Details</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-600" data-en="Service" data-ur="سروس">Service</span>
+                            <span class="text-sm font-medium text-gray-800">Tap Leakage Repair</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-600" data-en="Date &amp; Time" data-ur="تاریخ اور وقت">Date &amp; Time</span>
+                            <span class="text-sm font-medium text-gray-800">Today, 4:00 PM - 5:00 PM</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-600" data-en="Address" data-ur="پتہ">Address</span>
+                            <span class="text-sm font-medium text-gray-800">123 DHA Phase 5, Lahore</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow p-4 mb-6">
+                    <h3 class="font-semibold text-gray-800 mb-3" data-en="Price Breakdown" data-ur="قیمت کی تفصیل">Price Breakdown</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-600" data-en="Service Charge" data-ur="سروس چارج">Service Charge</span>
+                            <span class="text-sm font-medium text-gray-800">Rs. 500</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-600" data-en="Booking Fee" data-ur="بکنگ فیس">Booking Fee</span>
+                            <span class="text-sm font-medium text-gray-800">Rs. 50</span>
+                        </div>
+                        <div class="border-t border-gray-200 my-2"></div>
+                        <div class="flex justify-between">
+                            <span class="text-sm font-semibold text-gray-800" data-en="Total" data-ur="کل">Total</span>
+                            <span class="text-sm font-semibold text-gray-800">Rs. 550</span>
+                        </div>
+                        <p class="text-xs text-gray-500" data-en="Additional charges may apply for parts" data-ur="پرزوں کے لیے اضافی چارجز لاگو ہو سکتے ہیں">Additional charges may apply for parts</p>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-4">
+                    <button class="flex-1 border border-primary text-primary py-3 rounded-lg font-medium">
+                        <i class="fas fa-phone-alt mr-2"></i>
+                        <span data-en="Call" data-ur="کال کریں">Call</span>
+                    </button>
+                    <button id="confirm-booking-btn" class="flex-1 bg-primary text-white py-3 rounded-lg font-medium">
+                        <span data-en="Confirm Booking" data-ur="بکنگ کی تصدیق کریں">Confirm Booking</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Confirmation Screen -->
+        <div id="booking-confirmation-screen" class="screen hidden fade-in">
+            <div class="p-6">
+                <div class="flex flex-col items-center justify-center text-center p-6">
+                    <div class="w-24 h-24 rounded-full bg-green-100 flex items-center justify-center mb-6">
+                        <i class="fas fa-check text-green-500 text-4xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2" data-en="Booking Confirmed!" data-ur="بکنگ کی تصدیق ہو گئی!">Booking Confirmed!</h2>
+                    <p class="text-gray-600 mb-8" data-en="Your service request has been confirmed" data-ur="آپ کی سروس کی درخواست کی تصدیق ہو گئی ہے">Your service request has been confirmed</p>
+                    
+                    <div class="bg-white rounded-lg shadow p-4 w-full mb-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                <i class="fas fa-user text-blue-500"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-800">Ahmed Khan</h3>
+                                <p class="text-xs text-gray-500" data-en="Will arrive between 4:00 PM - 5:00 PM" data-ur="4:00 بجے - 5:00 بجے کے درمیان پہنچے گا">Will arrive between 4:00 PM - 5:00 PM</p>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-200 my-2"></div>
+                        
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600" data-en="Order ID" data-ur="آرڈر آئی ڈی">Order ID</span>
+                            <span class="text-sm font-medium text-gray-800">QF84721093</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600" data-en="Service" data-ur="سروس">Service</span>
+                            <span class="text-sm font-medium text-gray-800">Tap Leakage Repair</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-4 rounded-lg w-full mb-6 flex items-center">
+                        <i class="fas fa-map-marker-alt text-blue-500 mr-3"></i>
+                        <p class="text-sm text-gray-800">123 DHA Phase 5, Lahore</p>
+                    </div>
+                    
+                    <div class="w-full space-y-4">
+                        <button id="track-fixer-btn" class="w-full bg-primary text-white py-3 rounded-lg font-medium">
+                            <i class="fas fa-map-marked-alt mr-2"></i>
+                            <span data-en="Track Fixer" data-ur="فکسر کو ٹریک کریں">Track Fixer</span>
+                        </button>
+                        <button id="go-to-home-btn" class="w-full border border-primary text-primary py-3 rounded-lg font-medium">
+                            <span data-en="Back to Home" data-ur="ہوم پر واپس جائیں">Back to Home</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Mock Live Tracking Modal -->
+            <div id="live-tracking-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+                <div class="bg-gray-900 rounded-lg shadow-lg p-8 w-80 relative flex flex-col items-center">
+                    <button id="close-tracking-modal" class="absolute top-2 right-2 text-gray-400 hover:text-white text-xl">&times;</button>
+                    <h2 class="text-lg font-bold text-white mb-4">Live Fixer Tracking</h2>
+                    <div class="relative w-56 h-40 bg-gray-800 rounded-lg mb-4 flex items-center justify-center">
+                        <!-- Simple animated dot as mock location -->
+                        <div id="fixer-dot" class="absolute left-4 top-28 w-6 h-6 bg-primary rounded-full animate-pulse border-4 border-white"></div>
+                        <i class="fas fa-map-marker-alt text-primary text-3xl absolute left-2 top-2"></i>
+                        <i class="fas fa-home text-green-400 text-2xl absolute right-4 bottom-4"></i>
+                    </div>
+                    <div id="tracking-status" class="text-white text-center mb-2">Fixer is on the way...</div>
+                    <div class="text-gray-400 text-xs mb-2">(This is a mock tracking demo)</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Initialize language
+        let currentLanguage = 'en';
+        
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+        
+        // Track navigation history
+        let screenHistory = ['welcome-screen'];
+        
+        // Show screen function
+        function showScreen(screenId) {
+            const screens = document.querySelectorAll('.screen');
+            const newScreen = document.getElementById(screenId);
+            const currentScreen = Array.from(screens).find(screen => screen.classList.contains('active'));
+            let direction = 'forward';
+            if (screenHistory.length > 1 && screenHistory[screenHistory.length - 2] === screenId) {
+                direction = 'back';
+                screenHistory.pop();
+            } else if (screenHistory[screenHistory.length - 1] !== screenId) {
+                direction = 'forward';
+                screenHistory.push(screenId);
+            }
+
+            if (currentScreen && currentScreen !== newScreen) {
+                currentScreen.classList.remove('active');
+                if (direction === 'forward') {
+                    currentScreen.classList.add('screen-leave-left');
+                } else {
+                    currentScreen.classList.add('screen-leave-right');
+                }
+                setTimeout(() => {
+                    currentScreen.classList.add('hidden');
+                    currentScreen.classList.remove('screen-leave-left', 'screen-leave-right');
+                }, 400);
+            }
+
+            // Animate in the new screen
+            newScreen.classList.remove('hidden');
+            setTimeout(() => {
+                newScreen.classList.add('active');
+            }, 10);
+
+            // Update bottom nav highlighting
+            if ([
+                'dashboard-screen',
+                'orders-screen',
+                'wallet-screen',
+                'offers-screen',
+                'support-screen'
+            ].includes(screenId)) {
+                document.querySelectorAll('.bottom-nav-item').forEach(item => {
+                    const targetScreen = item.getAttribute('data-screen');
+                    if (targetScreen === screenId) {
+                        item.classList.add('text-primary');
+                        item.classList.remove('text-gray-500');
+                    } else {
+                        item.classList.remove('text-primary');
+                        item.classList.add('text-gray-500');
+                    }
+                });
+            }
+
+            // Reset scroll position
+            window.scrollTo(0, 0);
+        }
+        
+        // Toggle language
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'ur' : 'en';
+            document.getElementById('current-lang').textContent = currentLanguage === 'en' ? 'English' : 'اردو';
+            
+            // Update all text elements with data-en and data-ur attributes
+            document.querySelectorAll('[data-en]').forEach(element => {
+                element.textContent = element.getAttribute(`data-${currentLanguage}`);
+                
+                // Add or remove RTL text class based on language
+                if (currentLanguage === 'ur') {
+                    element.classList.add('rtl-text');
+                    element.classList.remove('ltr-text');
+                } else {
+                    element.classList.remove('rtl-text');
+                    element.classList.add('ltr-text');
+                }
+            });
+            
+            // Update placeholder attributes
+            document.querySelectorAll('[data-en-placeholder]').forEach(element => {
+                element.placeholder = element.getAttribute(`data-${currentLanguage}-placeholder`);
+            });
+        }
+        
+        // B2B service data
+        const b2bServiceData = {
+            'office': {
+                title: 'Office Solutions',
+                titleUr: 'دفتری حل',
+                icon: 'fa-building',
+                bgColor: 'bg-blue-100',
+                textColor: 'text-blue-500'
+            },
+            'salon': {
+                title: 'Salon & Spa',
+                titleUr: 'سیلون اور سپا',
+                icon: 'fa-spa',
+                bgColor: 'bg-pink-100',
+                textColor: 'text-pink-500'
+            },
+            'clinic': {
+                title: 'Clinic Setup',
+                titleUr: 'کلینک سیٹ اپ',
+                icon: 'fa-clinic-medical',
+                bgColor: 'bg-green-100',
+                textColor: 'text-green-500'
+            },
+            'restaurant': {
+                title: 'Restaurant',
+                titleUr: 'ریستوراں',
+                icon: 'fa-utensils',
+                bgColor: 'bg-yellow-100',
+                textColor: 'text-yellow-500'
+            }
+        };
+        
+        // Sub-service data
+        const serviceData = {
+            'plumbing': {
+                title: 'Plumbing Services',
+                titleUr: 'پلمبنگ کی خدمات',
+                icon: 'fa-faucet',
+                bgColor: 'bg-blue-100',
+                textColor: 'text-blue-500',
+                subServices: [
+                    { id: 'tap-leakage', name: 'Tap Leakage Repair', nameUr: 'نل کی رساو کی مرمت', price: 'Rs. 500', icon: 'fa-tint' },
+                    { id: 'pipe-replacement', name: 'Pipe Replacement', nameUr: 'پائپ تبدیل کرنا', price: 'Rs. 1,200', icon: 'fa-exchange-alt' },
+                    { id: 'toilet-repair', name: 'Toilet Repair', nameUr: 'بیت الخلا کی مرمت', price: 'Rs. 800', icon: 'fa-toilet' },
+                    { id: 'drain-cleaning', name: 'Drain Cleaning', nameUr: 'ڈرین کی صفائی', price: 'Rs. 700', icon: 'fa-pump-soap' },
+                    { id: 'water-heater', name: 'Water Heater Installation', nameUr: 'واٹر ہیٹر کی تنصیب', price: 'Rs. 1,500', icon: 'fa-hot-tub' }
+                ]
+            },
+            'electrical': {
+                title: 'Electrical Services',
+                titleUr: 'بجلی کی خدمات',
+                icon: 'fa-bolt',
+                bgColor: 'bg-yellow-100',
+                textColor: 'text-yellow-500',
+                subServices: [
+                    { id: 'switch-repair', name: 'Switch/Socket Repair', nameUr: 'سوئچ/ساکٹ کی مرمت', price: 'Rs. 400', icon: 'fa-toggle-on' },
+                    { id: 'fan-repair', name: 'Fan Installation/Repair', nameUr: 'پنکھے کی تنصیب/مرمت', price: 'Rs. 600', icon: 'fa-fan' },
+                    { id: 'light-fixture', name: 'Light Fixture Installation', nameUr: 'لائٹ فکسچر کی تنصیب', price: 'Rs. 500', icon: 'fa-lightbulb' },
+                    { id: 'wiring', name: 'Wiring Work', nameUr: 'وائرنگ کا کام', price: 'Rs. 1,000+', icon: 'fa-network-wired' },
+                    { id: 'voltage-issue', name: 'Voltage Issues', nameUr: 'وولٹیج کے مسائل', price: 'Rs. 800', icon: 'fa-bolt' }
+                ]
+            },
+            'cleaning': {
+                title: 'Cleaning Services',
+                titleUr: 'صفائی کی خدمات',
+                icon: 'fa-broom',
+                bgColor: 'bg-green-100',
+                textColor: 'text-green-500',
+                subServices: [
+                    { id: 'home-cleaning', name: 'Home Deep Cleaning', nameUr: 'گھر کی گہری صفائی', price: 'Rs. 2,500+', icon: 'fa-home' },
+                    { id: 'carpet-cleaning', name: 'Carpet Cleaning', nameUr: 'قالین کی صفائی', price: 'Rs. 1,200', icon: 'fa-broom' },
+                    { id: 'sofa-cleaning', name: 'Sofa Cleaning', nameUr: 'صوفے کی صفائی', price: 'Rs. 1,000', icon: 'fa-couch' },
+                    { id: 'bathroom-cleaning', name: 'Bathroom Deep Cleaning', nameUr: 'باتھ روم کی گہری صفائی', price: 'Rs. 800', icon: 'fa-toilet' },
+                    { id: 'kitchen-cleaning', name: 'Kitchen Deep Cleaning', nameUr: 'کچن کی گہری صفائی', price: 'Rs. 1,200', icon: 'fa-utensils' }
+                ]
+            },
+            'appliances': {
+                title: 'Appliance Services',
+                titleUr: 'آلات کی خدمات',
+                icon: 'fa-tv',
+                bgColor: 'bg-red-100',
+                textColor: 'text-red-500',
+                subServices: [
+                    { id: 'ac-service', name: 'AC Service/Repair', nameUr: 'اے سی سروس/مرمت', price: 'Rs. 1,500+', icon: 'fa-snowflake' },
+                    { id: 'fridge-repair', name: 'Refrigerator Repair', nameUr: 'فرج کی مرمت', price: 'Rs. 1,200+', icon: 'fa-temperature-low' },
+                    { id: 'washing-machine', name: 'Washing Machine Repair', nameUr: 'واشنگ مشین کی مرمت', price: 'Rs. 1,000+', icon: 'fa-tshirt' },
+                    { id: 'microwave-repair', name: 'Microwave Repair', nameUr: 'مائیکروویو کی مرمت', price: 'Rs. 800', icon: 'fa-radiation' },
+                    { id: 'tv-mounting', name: 'TV Mounting/Setup', nameUr: 'ٹی وی ماؤنٹنگ/سیٹ اپ', price: 'Rs. 700', icon: 'fa-tv' }
+                ]
+            },
+            'pest-control': {
+                title: 'Pest Control',
+                titleUr: 'کیڑے مکوڑوں کا کنٹرول',
+                icon: 'fa-bug',
+                bgColor: 'bg-purple-100',
+                textColor: 'text-purple-500',
+                subServices: [
+                    { id: 'general-pest', name: 'General Pest Control', nameUr: 'عام کیڑے کنٹرول', price: 'Rs. 1,500+', icon: 'fa-bug' },
+                    { id: 'cockroach', name: 'Cockroach Treatment', nameUr: 'کاکروچ ٹریٹمنٹ', price: 'Rs. 1,200', icon: 'fa-bug' },
+                    { id: 'bed-bugs', name: 'Bed Bugs Control', nameUr: 'بستر کے کیڑوں کا کنٹرول', price: 'Rs. 2,000+', icon: 'fa-bed' },
+                    { id: 'termite', name: 'Termite Control', nameUr: 'دیمک کنٹرول', price: 'Rs. 3,500+', icon: 'fa-home' },
+                    { id: 'rodent', name: 'Rodent Control', nameUr: 'چوہوں کا کنٹرول', price: 'Rs. 1,800', icon: 'fa-mouse' }
+                ]
+            },
+            'painting': {
+                title: 'Painting Services',
+                titleUr: 'پینٹنگ کی خدمات',
+                icon: 'fa-paint-roller',
+                bgColor: 'bg-indigo-100',
+                textColor: 'text-indigo-500',
+                subServices: [
+                    { id: 'interior', name: 'Interior Painting', nameUr: 'اندرونی پینٹنگ', price: 'Rs. 25/sqft', icon: 'fa-brush' },
+                    { id: 'exterior', name: 'Exterior Painting', nameUr: 'بیرونی پینٹنگ', price: 'Rs. 30/sqft', icon: 'fa-home' },
+                    { id: 'texture', name: 'Texture Painting', nameUr: 'ٹیکسچر پینٹنگ', price: 'Rs. 40/sqft', icon: 'fa-paint-roller' },
+                    { id: 'wood-polish', name: 'Wood Polishing', nameUr: 'لکڑی کی پالش', price: 'Rs. 50/sqft', icon: 'fa-chair' },
+                    { id: 'waterproofing', name: 'Waterproofing', nameUr: 'واٹر پروفنگ', price: 'Rs. 35/sqft', icon: 'fa-tint-slash' }
+                ]
+            }
+        };
+        
+        // Show B2B services
+        function showB2BServices(serviceId) {
+            const service = b2bServiceData[serviceId];
+            if (!service) return;
+            
+            // Set service title
+            const serviceTitle = document.getElementById('b2b-service-title');
+            serviceTitle.textContent = currentLanguage === 'en' ? service.title : service.titleUr;
+            
+            showScreen('b2b-service-screen');
+        }
+        
+        // Populate sub-services
+        function showSubServices(serviceId) {
+            const service = serviceData[serviceId];
+            if (!service) return;
+            
+            // Set service title
+            const serviceTitle = document.getElementById('service-title');
+            serviceTitle.textContent = currentLanguage === 'en' ? service.title : service.titleUr;
+            
+            // Clear and populate sub-services container
+            const container = document.getElementById('sub-services-container');
+            container.innerHTML = '';
+            
+            service.subServices.forEach(subService => {
+                const subServiceElement = document.createElement('div');
+                subServiceElement.className = 'sub-service flex items-center p-4 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-colors cursor-pointer';
+                subServiceElement.setAttribute('data-id', subService.id);
+                
+                subServiceElement.innerHTML = `
+                    <div class="w-12 h-12 rounded-full ${service.bgColor} flex items-center justify-center mr-4">
+                        <i class="fas ${subService.icon || service.icon} ${service.textColor}"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-medium text-gray-800">${currentLanguage === 'en' ? subService.name : subService.nameUr}</h3>
+                        <p class="text-sm text-gray-500">${subService.price}</p>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                `;
+                
+                container.appendChild(subServiceElement);
+                
+                // Add click event
+                subServiceElement.addEventListener('click', () => {
+                    // Remember selected sub-service
+                    selectedSubService = {
+                        name: subService.name,
+                        nameUr: subService.nameUr,
+                        price: subService.price
+                    };
+                    // Set sub-service title in booking screen
+                    document.getElementById('sub-service-title').textContent = currentLanguage === 'en' ? subService.name : subService.nameUr;
+                    showScreen('booking-screen');
+                });
+            });
+            
+            showScreen('sub-service-screen');
+        }
+        
+        // Tab functionality
+        function setupTabs(tabBtnSelector, tabContentSelector) {
+            document.querySelectorAll(tabBtnSelector).forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Update tab button styling
+                    document.querySelectorAll(tabBtnSelector).forEach(btn => {
+                        btn.classList.remove('text-primary', 'border-b-2', 'border-primary');
+                        btn.classList.add('text-gray-500');
+                    });
+                    this.classList.add('text-primary', 'border-b-2', 'border-primary');
+                    this.classList.remove('text-gray-500');
+                    
+                    // Show selected tab content
+                    document.querySelectorAll(tabContentSelector).forEach(content => {
+                        content.classList.remove('active');
+                        content.classList.add('hidden');
+                    });
+                    document.getElementById(tabId).classList.add('active');
+                    document.getElementById(tabId).classList.remove('hidden');
+                });
+            });
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup tabs
+            setupTabs('.order-tab-btn', '.order-tab-content');
+            setupTabs('.support-tab-btn', '.support-tab-content');
+            
+            // FAQ toggle
+            document.querySelectorAll('.faq-item').forEach(item => {
+                const question = item.querySelector('.flex');
+                const answer = item.querySelector('.faq-answer');
+                const icon = question.querySelector('i');
+                
+                question.addEventListener('click', () => {
+                    answer.classList.toggle('hidden');
+                    if (answer.classList.contains('hidden')) {
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    } else {
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                    }
+                });
+            });
+            
+            // Bottom navigation
+            document.querySelectorAll('.bottom-nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const screenId = this.getAttribute('data-screen');
+                    showScreen(screenId);
+                });
+            });
+            
+            // Language toggle
+            document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
+            
+            // Navigate to signup
+            document.getElementById('signup-btn').addEventListener('click', () => showScreen('signup-screen'));
+            document.getElementById('login-btn').addEventListener('click', () => showScreen('signup-screen'));
+            document.getElementById('skip-login-btn').addEventListener('click', () => showScreen('dashboard-screen'));
+            
+            // Back to welcome
+            document.getElementById('back-to-welcome').addEventListener('click', () => showScreen('welcome-screen'));
+            
+            // Signup form submission
+            document.getElementById('signup-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                showScreen('dashboard-screen');
+            });
+            
+            // Show sub-services when service is clicked
+            document.querySelectorAll('.service-item, .service-category').forEach(item => {
+                item.addEventListener('click', function() {
+                    const serviceId = this.getAttribute('data-service');
+                    showSubServices(serviceId);
+                });
+            });
+            
+            // B2B services handling
+            document.querySelectorAll('.b2b-service').forEach(item => {
+                item.addEventListener('click', function() {
+                    const serviceId = this.getAttribute('data-service');
+                    showB2BServices(serviceId);
+                });
+            });
+            
+            // Back buttons
+            document.querySelectorAll('.back-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const currentScreen = this.closest('.screen').id;
+                    
+                    if (currentScreen === 'sub-service-screen') {
+                        showScreen('dashboard-screen');
+                    } else if (currentScreen === 'b2b-service-screen') {
+                        showScreen('dashboard-screen');
+                    } else if (currentScreen === 'booking-screen') {
+                        const activeServiceId = document.querySelector('.service-category.active')?.getAttribute('data-service') || 'plumbing';
+                        showSubServices(activeServiceId);
+                    } else if (currentScreen === 'fixer-matching-screen') {
+                        showScreen('booking-screen');
+                    } else if (currentScreen === 'fixer-profile-screen') {
+                        showScreen('fixer-matching-screen');
+                    }
+                });
+            });
+            
+            // Find a Fixer button
+            document.getElementById('find-fixer-btn').addEventListener('click', () => {
+                showScreen('fixer-matching-screen');
+                
+                // Simulate finding a fixer after 3 seconds
+                setTimeout(() => {
+                    const findFixerBtn = document.getElementById('show-fixer-btn');
+                    findFixerBtn.disabled = false;
+                    findFixerBtn.classList.remove('bg-gray-200', 'text-gray-500');
+                    findFixerBtn.classList.add('bg-primary', 'text-white');
+                    findFixerBtn.innerHTML = `<span data-en="View Fixer Profile" data-ur="فکسر پروفائل دیکھیں">${currentLanguage === 'en' ? 'View Fixer Profile' : 'فکسر پروفائل دیکھیں'}</span>`;
+                }, 3000);
+            });
+            
+            // Show fixer profile button
+            document.getElementById('show-fixer-btn').addEventListener('click', () => {
+                if (!document.getElementById('show-fixer-btn').disabled) {
+                    showScreen('fixer-profile-screen');
+                }
+            });
+            
+            // Confirm booking button
+            document.getElementById('confirm-booking-btn').addEventListener('click', () => {
+                showScreen('booking-confirmation-screen');
+            });
+            
+            // Go to home button
+            document.getElementById('go-to-home-btn').addEventListener('click', () => {
+                showScreen('dashboard-screen');
+            });
+
+            // Track Fixer button
+            document.getElementById('track-fixer-btn').addEventListener('click', function() {
+                const modal = document.getElementById('live-tracking-modal');
+                const dot = document.getElementById('fixer-dot');
+                const status = document.getElementById('tracking-status');
+                modal.classList.remove('hidden');
+                dot.classList.add('animate-move');
+                status.textContent = 'Fixer is on the way...';
+                setTimeout(() => {
+                    status.textContent = 'Fixer is 2 minutes away';
+                }, 1500);
+                setTimeout(() => {
+                    status.textContent = 'Fixer has almost arrived!';
+                }, 3000);
+            });
+
+            // Close tracking modal
+            document.getElementById('close-tracking-modal').addEventListener('click', function() {
+                const modal = document.getElementById('live-tracking-modal');
+                const dot = document.getElementById('fixer-dot');
+                modal.classList.add('hidden');
+                dot.classList.remove('animate-move');
+            });
+        });
+
+        // Add these variables at the top of the <script> section
+        let selectedSubService = {
+          name: 'Tap Leakage Repair',
+          nameUr: 'نل کی رساو کی مرمت',
+          price: 'Rs. 500'
+        };
+        let enteredAddress = '123 DHA Phase 5, Lahore';
+
+        // ... existing code ...
+        // On booking screen, update sub-service title and listen for address input
+        function updateBookingScreen() {
+            document.getElementById('sub-service-title').textContent = currentLanguage === 'en' ? selectedSubService.name : selectedSubService.nameUr;
+            // Set address input value if already entered
+            const addressInput = document.querySelector('#booking-screen input[placeholder="Enter your address"]');
+            if (addressInput) addressInput.value = enteredAddress;
+        }
+
+        // Listen for address input changes
+        function setupAddressListener() {
+            const addressInput = document.querySelector('#booking-screen input[placeholder="Enter your address"]');
+            if (addressInput) {
+                addressInput.addEventListener('input', function() {
+                    enteredAddress = this.value;
+                });
+            }
+        }
+
+        // Call updateBookingScreen and setupAddressListener when showing booking screen
+        const originalShowScreen = showScreen;
+        showScreen = function(screenId) {
+            originalShowScreen(screenId);
+            if (screenId === 'booking-screen') {
+                updateBookingScreen();
+                setupAddressListener();
+            }
+            if (screenId === 'fixer-profile-screen') {
+                // Update service and address on Fixer Profile
+                document.querySelector('#fixer-profile-screen [data-en="Service"]').nextElementSibling.textContent = currentLanguage === 'en' ? selectedSubService.name : selectedSubService.nameUr;
+                document.querySelector('#fixer-profile-screen [data-en="Address"]').nextElementSibling.textContent = enteredAddress;
+                // Update service charge and total
+                const serviceChargeElem = document.querySelector('#fixer-profile-screen [data-en="Service Charge"]').nextElementSibling;
+                if (serviceChargeElem) serviceChargeElem.textContent = selectedSubService.price;
+                // Assume booking fee is Rs. 50 if price is a number, else leave as is
+                let priceNum = parseInt(selectedSubService.price.replace(/[^\d]/g, ''));
+                let total = priceNum ? priceNum + 50 : selectedSubService.price;
+                const totalElem = document.querySelector('#fixer-profile-screen [data-en="Total"]').nextElementSibling;
+                if (totalElem) totalElem.textContent = priceNum ? `Rs. ${total}` : selectedSubService.price;
+            }
+            if (screenId === 'booking-confirmation-screen') {
+                // Update service and address on Booking Confirmation
+                document.querySelector('#booking-confirmation-screen [data-en="Service"]').nextElementSibling.textContent = currentLanguage === 'en' ? selectedSubService.name : selectedSubService.nameUr;
+                document.querySelector('#booking-confirmation-screen .bg-blue-50.p-4.rounded-lg p').textContent = enteredAddress;
+                // Update service charge and total
+                const serviceChargeElem = document.querySelector('#booking-confirmation-screen [data-en="Service Charge"]')?.nextElementSibling;
+                if (serviceChargeElem) serviceChargeElem.textContent = selectedSubService.price;
+                let priceNum = parseInt(selectedSubService.price.replace(/[^\d]/g, ''));
+                let total = priceNum ? priceNum + 50 : selectedSubService.price;
+                const totalElem = document.querySelector('#booking-confirmation-screen [data-en="Total"]')?.nextElementSibling;
+                if (totalElem) totalElem.textContent = priceNum ? `Rs. ${total}` : selectedSubService.price;
+            }
+        };
+
+        // Add this function to get the current category name for the expert title
+        function getExpertTitle() {
+            // Find the selected category from serviceData
+            let category = Object.keys(serviceData).find(key => {
+                return serviceData[key].subServices.some(sub => sub.name === selectedSubService.name);
+            });
+            if (!category) category = 'plumbing'; // fallback
+            let en = '';
+            let ur = '';
+            switch (category) {
+                case 'plumbing':
+                    en = 'Plumbing Expert'; ur = 'پلمبنگ ماہر'; break;
+                case 'electrical':
+                    en = 'Electrical Expert'; ur = 'بجلی ماہر'; break;
+                case 'cleaning':
+                    en = 'Cleaning Expert'; ur = 'صفائی ماہر'; break;
+                case 'appliances':
+                    en = 'Appliance Expert'; ur = 'آلات ماہر'; break;
+                case 'pest-control':
+                    en = 'Pest Control Expert'; ur = 'کیڑوں کا ماہر'; break;
+                case 'painting':
+                    en = 'Painting Expert'; ur = 'پینٹنگ ماہر'; break;
+                default:
+                    en = 'Service Expert'; ur = 'سروس ماہر'; break;
+            }
+            return { en, ur };
+        }
+        // Patch showScreen to update expert title on fixer-profile-screen
+        const originalShowScreen2 = showScreen;
+        showScreen = function(screenId) {
+            originalShowScreen2(screenId);
+            // ... existing code ...
+            if (screenId === 'fixer-profile-screen') {
+                // ... existing code ...
+                // Update expert title
+                const expertTitle = getExpertTitle();
+                const expertElem = document.getElementById('fixer-expert-title');
+                if (expertElem) {
+                    expertElem.textContent = currentLanguage === 'en' ? expertTitle.en : expertTitle.ur;
+                    expertElem.setAttribute('data-en', expertTitle.en);
+                    expertElem.setAttribute('data-ur', expertTitle.ur);
+                }
+            }
+            // ... existing code ...
+        }
+
+        // Add a list of Pakistani male fixer profiles
+        const fixerProfiles = [
+          {
+            name: 'Ahmed Khan',
+            avatar: '<i class="fas fa-user text-blue-500 text-2xl"></i>',
+            experience: '8+ years experience',
+            jobs: '450+ jobs completed',
+            certified: 'Certified professional'
+          },
+          {
+            name: 'Bilal Ahmed',
+            avatar: '<i class="fas fa-user text-green-500 text-2xl"></i>',
+            experience: '6+ years experience',
+            jobs: '320+ jobs completed',
+            certified: 'Certified professional'
+          },
+          {
+            name: 'Faisal Iqbal',
+            avatar: '<i class="fas fa-user text-yellow-500 text-2xl"></i>',
+            experience: '10+ years experience',
+            jobs: '600+ jobs completed',
+            certified: 'Certified professional'
+          },
+          {
+            name: 'Imran Siddiqui',
+            avatar: '<i class="fas fa-user text-purple-500 text-2xl"></i>',
+            experience: '7+ years experience',
+            jobs: '380+ jobs completed',
+            certified: 'Certified professional'
+          },
+          {
+            name: 'Usman Tariq',
+            avatar: '<i class="fas fa-user text-red-500 text-2xl"></i>',
+            experience: '5+ years experience',
+            jobs: '250+ jobs completed',
+            certified: 'Certified professional'
+          },
+          {
+            name: 'Zeeshan Ali',
+            avatar: '<i class="fas fa-user text-teal-500 text-2xl"></i>',
+            experience: '9+ years experience',
+            jobs: '500+ jobs completed',
+            certified: 'Certified professional'
+          }
+        ];
+        let selectedFixerProfile = fixerProfiles[0];
+        // Patch showScreen to randomly assign a fixer profile on fixer-profile-screen
+        const originalShowScreen3 = showScreen;
+        showScreen = function(screenId) {
+          originalShowScreen3(screenId);
+          // ... existing code ...
+          if (screenId === 'fixer-profile-screen') {
+            // Randomly select a fixer profile
+            selectedFixerProfile = fixerProfiles[Math.floor(Math.random() * fixerProfiles.length)];
+            // Update name
+            const nameElem = document.querySelector('#fixer-profile-screen h2');
+            if (nameElem) nameElem.textContent = selectedFixerProfile.name;
+            // Update avatar
+            const avatarElem = document.querySelector('#fixer-profile-screen .w-16.h-16.rounded-full.bg-gray-300.mr-4.overflow-hidden');
+            if (avatarElem) avatarElem.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-blue-100">${selectedFixerProfile.avatar}</div>`;
+            // Update experience
+            const expElem = document.querySelector('#fixer-profile-screen .fa-tools')?.parentElement?.nextElementSibling;
+            if (expElem) expElem.textContent = selectedFixerProfile.experience;
+            // Update jobs
+            const jobsElem = document.querySelector('#fixer-profile-screen .fa-briefcase')?.parentElement?.nextElementSibling;
+            if (jobsElem) jobsElem.textContent = selectedFixerProfile.jobs;
+            // Update certified
+            const certElem = document.querySelector('#fixer-profile-screen .fa-certificate')?.parentElement?.nextElementSibling;
+            if (certElem) certElem.textContent = selectedFixerProfile.certified;
+          }
+          // ... existing code ...
+        }
+    </script>
+
+
+</body></html>
