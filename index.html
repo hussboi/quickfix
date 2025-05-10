@@ -1535,17 +1535,9 @@
         // Initialize language
         let currentLanguage = 'en';
         
-        // Dark mode detection
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark');
-        }
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-            if (event.matches) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        });
+        // Force dark mode
+        document.documentElement.classList.add('dark');
+       
         
         // Track navigation history
         let screenHistory = ['welcome-screen'];
@@ -1901,7 +1893,27 @@
                     showB2BServices(serviceId);
                 });
             });
-            
+            // Add B2B service items handling
+document.querySelectorAll('.b2b-service-item').forEach(item => {
+    item.addEventListener('click', function() {
+        // Get the service name and description
+        const serviceName = this.querySelector('h3').textContent;
+        const serviceNameUr = this.querySelector('h3').getAttribute('data-ur');
+        
+        // Set the selected sub-service
+        selectedSubService = {
+            name: serviceName,
+            nameUr: serviceNameUr,
+            price: 'Rs. 1000' // Default price for B2B services
+        };
+        
+        // Update the booking screen title
+        document.getElementById('sub-service-title').textContent = currentLanguage === 'en' ? serviceName : serviceNameUr;
+        
+        // Show the booking screen
+        showScreen('booking-screen');
+    });
+});
             // Back buttons
             document.querySelectorAll('.back-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
